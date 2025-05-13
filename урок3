@@ -1,0 +1,17 @@
+import telebot
+import random
+import os
+
+bot = telebot.TeleBot('ТВОЙ_ТОКЕН')
+@bot.message_handler(commands=['object'])
+def send_object(message):
+    img_name = random.choice(os.listdir('img'))  # Случайным образом выбираем изображение
+    with open(f'img/{img_name}', 'rb') as f:
+        # Отправляем фото, выбранное случайным образом
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=['start'])
+def start_command(message):
+    bot.send_message(message.chat.id, "Привет! Используй команду /object, чтобы получить предмет!")
+
+bot.polling()
